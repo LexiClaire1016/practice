@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style>
+			a {
+				text-decoration: none;
+			}
+			
+			table {
+				border: 1px solid black;
+				border-collapse: collapse;
+				width: 400px;
+				height: 200px;
+			}
+			
+			tr,
+			td {
+				border: 1px solid black;
+			}
+		</style>
+		<script src="js/cookie.js"></script>
+	</head>
+
+	<body>
+		<a href="product1.html">商品1&nbsp;&nbsp;&nbsp;&nbsp;</a>
+		<a href="product2.html">商品2</a>
+		<table id="table1">
+			<tbody>
+
+			</tbody>
+		</table>
+		<script>
+			var oTable = document.getElementById("table1");
+			var oa = document.getElementsByTagName("a");
+			var orderObj = JSON.parse(getCookie("order"));
+			for(var i = 0; i < orderObj.length; i++) {
+				var tr = document.createElement("tr");
+				var _id = document.createElement("td");
+				_id.innerHTML = orderObj[i].id;
+				var _desc = document.createElement("td");
+				_desc.innerHTML = decodeURIComponent(orderObj[i].desc);
+				var _price = document.createElement("td");
+				_price.innerHTML = orderObj[i].price;
+				var _number = document.createElement("td");
+				_number.innerHTML = orderObj[i].number;
+				var _delete = document.createElement("td");
+				_delete.innerHTML = "<a href='javascript:void(0)'>删除</a>";
+
+				tr.appendChild(_id);
+				tr.appendChild(_desc);
+				tr.appendChild(_price);
+				tr.appendChild(_number);
+				tr.appendChild(_delete);
+				oTable.appendChild(tr);
+			}
+			
+			
+			for(var j=0;j<oa.length;j++){
+				oa[j].onclick = function(ev){
+					ev.target.parentNode.parentNode.remove(); //删除a标签所在的行
+					removeCookie("order");
+				}
+			}
+
+			/*
+			for(var j = 0; j < oa.length; j++) {
+				oa[j].onclick = function(ev) {
+					ev.target.parentNode.parentNode.remove(); //删除a标签所在的行
+					removeCookie("order");
+					var trs = document.getElementsByTagName("tr");
+					var order = [];
+					for(var k = 0; k < trs.length; k++) {
+						var orderItem = {};
+						orderItem.id = 1;
+						orderItem.desc = "pingguo";
+						orderItem.price = 10000;
+						orderItem.number = 20;
+						order.push(orderItem);
+					}
+					setCookie("order", JSON.stringify(order), 3);
+				}
+
+			}
+			*/
+		</script>
+	</body>
+
+</html>

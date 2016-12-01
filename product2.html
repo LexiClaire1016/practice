@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style>
+			span{
+				color:red;
+			}
+		</style>
+		<script src="js/cookie.js"></script>
+	</head> 
+	<body>
+		<p>商品信息：<span id="spanDesc">苹果7plus</span></p>
+		<p>价格￥：<span id="spanPrice">8000</span></p>
+		<input type="hidden" value="shangpin0002" id="productId">
+		<input type="text" value="1" id="number"/>
+		<input type="button" id="btn1" value="加入购物车"/>
+		<script>
+			var oBtn = document.getElementById("btn1");
+			var idNode = document.getElementById("productId");
+			var productDescNode = document.getElementById("spanDesc");
+			var priceNode = document.getElementById("spanPrice");
+			var numberNode = document.getElementById("number");
+			oBtn.onclick = function(){
+				var order = [];
+				var orderItem = {};
+				orderItem.id = idNode.value;
+				orderItem.desc = encodeURIComponent(productDescNode.innerHTML);
+				orderItem.price = priceNode.innerHTML;
+				orderItem.number = numberNode.value;
+				
+				if(getCookie("order")){
+					var cookie = JSON.parse(getCookie('order'));
+					cookie.push(orderItem);
+					setCookie('order', JSON.stringify(cookie),3);
+				}else{
+					order.push(orderItem);
+					setCookie("order",JSON.stringify(order),3);
+				}
+				location.href = "cart.html";
+			}
+		</script>
+	</body>
+</html>
